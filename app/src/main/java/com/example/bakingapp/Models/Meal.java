@@ -1,8 +1,11 @@
 package com.example.bakingapp.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class Meal
+public class Meal implements Parcelable
 {
     public int id;
     public String name;
@@ -13,6 +16,25 @@ public class Meal
 
     public Meal() {
     }
+
+    protected Meal(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        servings = in.readInt();
+        image = in.readString();
+    }
+
+    public static final Creator<Meal> CREATOR = new Creator<Meal>() {
+        @Override
+        public Meal createFromParcel(Parcel in) {
+            return new Meal(in);
+        }
+
+        @Override
+        public Meal[] newArray(int size) {
+            return new Meal[size];
+        }
+    };
 
     @Override
     public String toString() {
@@ -72,5 +94,18 @@ public class Meal
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeInt(servings);
+        dest.writeString(image);
     }
 }
