@@ -3,7 +3,9 @@ package com.example.bakingapp.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Step implements Parcelable
+import java.io.Serializable;
+
+public class Step implements Parcelable , Serializable
 {
     public int id;
     public String shortDescription;

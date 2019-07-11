@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -17,11 +18,15 @@ import com.example.bakingapp.Activities.StepsActivity;
 import com.example.bakingapp.Models.Step;
 import com.example.bakingapp.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DetailFragment extends Fragment {
 
+    public static final String STEP_ITEM = "step-item2";
+    public static final String TABLET = "tablet";
+    public static final String STEPS_LIST = "steps-list2";
 
     private List<Step> mSteps;
     private int stepIndex =0;
@@ -53,6 +58,12 @@ public class DetailFragment extends Fragment {
         mTextView = mView.findViewById(R.id.text_view);
         before = mView.findViewById(R.id.btn_before);
         after = mView.findViewById(R.id.btn_after);
+
+        if (savedInstanceState != null){
+            mSteps = (List<Step>) savedInstanceState.getSerializable(STEPS_LIST);
+            stepIndex = savedInstanceState.getInt(STEP_ITEM);
+            tablet = savedInstanceState.getBoolean(TABLET);
+        }
 
         mVideoView.setVideoPath(mSteps.get(stepIndex).getVideoURL());
         mVideoView.start();
@@ -113,6 +124,9 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putSerializable(STEPS_LIST, (Serializable) mSteps);
+        outState.putInt(STEP_ITEM, stepIndex);
+        outState.putBoolean(TABLET,tablet);
         super.onSaveInstanceState(outState);
     }
 }

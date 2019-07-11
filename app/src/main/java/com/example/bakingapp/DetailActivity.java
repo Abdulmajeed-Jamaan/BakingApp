@@ -11,10 +11,14 @@ import com.example.bakingapp.Activities.StepsActivity;
 import com.example.bakingapp.Fragments.DetailFragment;
 import com.example.bakingapp.Models.Step;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
+    public static final String STEP_ITEM = "step-item3";
+    public static final String STEPS_LIST = "steps-list3";
+
 
     private List<Step> mSteps;
     private int stepIndex =0;
@@ -27,27 +31,29 @@ public class DetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             mSteps = getIntent().getParcelableArrayListExtra(MainActivity.MEAL_ITEM);
             stepIndex = getIntent().getIntExtra(StepsActivity.STEP_ITEM,0);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            DetailFragment mDetailFragment = new DetailFragment();
+            mDetailFragment.setmSteps(mSteps);
+            mDetailFragment.setStepIndex(stepIndex);
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.detail_layout, mDetailFragment)
+                    .commit();
         }else{
-            mSteps = savedInstanceState.getParcelableArrayList(MainActivity.MEAL_ITEM);
-            stepIndex = savedInstanceState.getInt(StepsActivity.STEP_ITEM,0);
+            mSteps = savedInstanceState.getParcelableArrayList(STEPS_LIST);
+            stepIndex = savedInstanceState.getInt(STEP_ITEM,0);
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        DetailFragment mDetailFragment = new DetailFragment();
-        mDetailFragment.setmSteps(mSteps);
-        mDetailFragment.setStepIndex(stepIndex);
-
-        fragmentManager.beginTransaction()
-                .add(R.id.detail_layout, mDetailFragment)
-                .commit();
 
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        outState.putParcelableArrayList(MainActivity.MEAL_ITEM, (ArrayList<Step>) mSteps);
-        outState.putInt(StepsActivity.STEP_ITEM, stepIndex);
+        outState.putSerializable(STEPS_LIST, (Serializable) mSteps);
+        outState.putInt(STEP_ITEM, stepIndex);
         super.onSaveInstanceState(outState, outPersistentState);
     }
 }

@@ -19,13 +19,16 @@ import com.example.bakingapp.Models.Meal;
 import com.example.bakingapp.Models.Step;
 import com.example.bakingapp.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StepsActivity extends AppCompatActivity implements MealsAndStepsAdapter.ItemClickListener {
 
     private final String TAG = this.toString();
-    public static final String STEP_ITEM = "step-item";
+    public static final String STEP_ITEM = "step-itemm";
+    public static final String STEPS_LIST = "steps-listt";
+    public static final String TABLET = "tablett";
 
     private List<Step> mSteps;
     private int stepIndex =0;
@@ -41,30 +44,33 @@ public class StepsActivity extends AppCompatActivity implements MealsAndStepsAda
             mSteps = getIntent().getParcelableArrayListExtra(MainActivity.MEAL_ITEM);
             stepIndex = getIntent().getIntExtra(StepsActivity.STEP_ITEM,0);
 
+            if (findViewById(R.id.frame_layout_detail) != null) {
+                tablet = true;
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                DetailFragment mDetailFragment = new DetailFragment();
+                mDetailFragment.setmSteps(mSteps);
+                mDetailFragment.setStepIndex(stepIndex);
+                mDetailFragment.setTablet(true);
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.frame_layout_detail, mDetailFragment)
+                        .commit();
+
+
+            }
+
         }else{
-           mSteps = savedInstanceState.getParcelableArrayList(MainActivity.MEAL_ITEM);
-           stepIndex = savedInstanceState.getInt(StepsActivity.STEP_ITEM,0);
+
+           mSteps = (List<Step>) savedInstanceState.getSerializable(STEPS_LIST);
+            stepIndex = savedInstanceState.getInt(STEP_ITEM,0);
+            tablet = savedInstanceState.getBoolean(TABLET);
 
         }
 
-        Log.v(TAG,mSteps.size()+"===");
-
-        if (findViewById(R.id.frame_layout_detail) != null) {
-            tablet = true;
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            DetailFragment mDetailFragment = new DetailFragment();
-            mDetailFragment.setmSteps(mSteps);
-            mDetailFragment.setStepIndex(stepIndex);
-            mDetailFragment.setTablet(true);
-
-            fragmentManager.beginTransaction()
-                    .add(R.id.frame_layout_detail, mDetailFragment)
-                    .commit();
 
 
-        }
 
 
 
@@ -94,11 +100,15 @@ public class StepsActivity extends AppCompatActivity implements MealsAndStepsAda
         }
     }
 
-
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        outState.putParcelableArrayList(StepsFragments.STEPS_ARRAYLIST_TAG, (ArrayList<Step>) mSteps);
-        outState.putInt(StepsActivity.STEP_ITEM, stepIndex);
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(STEPS_LIST, (Serializable) mSteps);
+        outState.putInt(STEP_ITEM, stepIndex);
+        outState.putBoolean(TABLET,tablet);
+        super.onSaveInstanceState(outState);
     }
+
+
+
 }
+

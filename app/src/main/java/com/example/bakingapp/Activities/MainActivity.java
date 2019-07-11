@@ -85,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements Response_Meals ,M
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         int scalingFactor = 200;
         int noOfColumns = (int) (dpWidth / scalingFactor);
-        if(noOfColumns < 2)
-            noOfColumns = 1;
+        if(noOfColumns < 2){
+            noOfColumns = 1;}else {
+            noOfColumns=3;
+        }
         return noOfColumns;
     }
 
