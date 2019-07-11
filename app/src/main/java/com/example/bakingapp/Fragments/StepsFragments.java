@@ -2,6 +2,7 @@ package com.example.bakingapp.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,11 +20,13 @@ import com.example.bakingapp.Models.Meal;
 import com.example.bakingapp.Models.Step;
 import com.example.bakingapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StepsFragments extends Fragment{
 
     private final String TAG = this.getTag();
+    public static final String STEPS_ARRAYLIST_TAG = "step-arraylist-tag";
     MealsAndStepsAdapter mAdapter;
 
     private List<Step> mSteps;
@@ -41,9 +44,15 @@ public class StepsFragments extends Fragment{
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mAdapter = new MealsAndStepsAdapter(getContext());
-        mSteps = getActivity().getIntent().getParcelableArrayListExtra(MainActivity.MEAL_ITEM);
-        mAdapter.setmSteps(mSteps);
         mAdapter.setClickListener((MealsAndStepsAdapter.ItemClickListener) getContext());
+
+        if (savedInstanceState == null) {
+            mSteps = getActivity().getIntent().getParcelableArrayListExtra(MainActivity.MEAL_ITEM);
+            mAdapter.setmSteps(mSteps);
+        }else{
+            mSteps = savedInstanceState.getParcelableArrayList(STEPS_ARRAYLIST_TAG);
+            mAdapter.setmSteps(mSteps);
+        }
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -52,9 +61,10 @@ public class StepsFragments extends Fragment{
         return mView;
     }
 
-    public void setAdapterClickListner(MealsAndStepsAdapter.ItemClickListener mContext){
-        mAdapter.setClickListener(mContext);
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelableArrayList(STEPS_ARRAYLIST_TAG, (ArrayList<Step>) mSteps);
+        super.onSaveInstanceState(outState);
     }
-
-
 }

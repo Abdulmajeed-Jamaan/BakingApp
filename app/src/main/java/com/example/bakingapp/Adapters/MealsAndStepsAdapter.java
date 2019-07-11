@@ -43,7 +43,7 @@ public class MealsAndStepsAdapter extends RecyclerView.Adapter<MealsAndStepsAdap
             viewHolder.title.setText(mMeals.get(i).getName());
 
         }else {
-            viewHolder.title.setText(mSteps.get(i).getDescription());
+            viewHolder.title.setText(mSteps.get(i).getShortDescription());
             viewHolder.title.setAllCaps(false);
         }
 
