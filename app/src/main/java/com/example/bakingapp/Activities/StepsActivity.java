@@ -1,21 +1,12 @@
 package com.example.bakingapp.Activities;
 
 import android.content.Intent;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.bakingapp.Adapters.MealsAndStepsAdapter;
-import com.example.bakingapp.DetailActivity;
 import com.example.bakingapp.Fragments.DetailFragment;
-import com.example.bakingapp.Fragments.StepsFragments;
-import com.example.bakingapp.Models.Meal;
 import com.example.bakingapp.Models.Step;
 import com.example.bakingapp.R;
 
