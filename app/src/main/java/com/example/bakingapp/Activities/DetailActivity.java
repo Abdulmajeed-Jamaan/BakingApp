@@ -1,4 +1,4 @@
-package com.example.bakingapp;
+package com.example.bakingapp.Activities;
 
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +10,7 @@ import com.example.bakingapp.Activities.MainActivity;
 import com.example.bakingapp.Activities.StepsActivity;
 import com.example.bakingapp.Fragments.DetailFragment;
 import com.example.bakingapp.Models.Step;
+import com.example.bakingapp.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
