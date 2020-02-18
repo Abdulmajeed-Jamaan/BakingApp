@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.bakingapp.Activities.MainActivity;
 import com.example.bakingapp.Activities.StepsActivity;
 import com.example.bakingapp.Models.Step;
@@ -177,10 +179,17 @@ public class DetailFragment extends Fragment {
     public void showthumpnail(){
         Log.v(TAG,mSteps.get(stepIndex).getThumbnailURL()+"-------------------------");
         error.setVisibility(View.GONE);
-
+        releasePlayer();
         if (!mSteps.get(stepIndex).getThumbnailURL().isEmpty()) {
-            initializePlayer(Uri.parse(mSteps.get(stepIndex).getThumbnailURL()));
 
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.isMemoryCacheable();
+            Glide
+                    .with(getContext())
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(mSteps.get(stepIndex).getThumbnailURL())
+                    .into(error);
+            error.setVisibility(View.VISIBLE);
         }else if (!mSteps.get(stepIndex).getVideoURL().isEmpty()){
 
             initializePlayer(Uri.parse(mSteps.get(stepIndex).getVideoURL()));
@@ -223,15 +232,19 @@ public class DetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mSimpleExoPlayer.setPlayWhenReady(true);
+        if (mSimpleExoPlayer != null) {
+            mSimpleExoPlayer.setPlayWhenReady(true);
+
+        }
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        if (mSimpleExoPlayer != null) {
 
             mSimpleExoPlayer.setPlayWhenReady(false);
-    }
+    }}
 
 }

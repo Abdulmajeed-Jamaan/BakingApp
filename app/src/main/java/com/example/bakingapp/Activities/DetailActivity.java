@@ -4,16 +4,12 @@ import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
-import com.example.bakingapp.Activities.MainActivity;
-import com.example.bakingapp.Activities.StepsActivity;
 import com.example.bakingapp.Fragments.DetailFragment;
 import com.example.bakingapp.Models.Step;
 import com.example.bakingapp.R;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
@@ -28,7 +24,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
         if (savedInstanceState == null) {
             mSteps = getIntent().getParcelableArrayListExtra(MainActivity.MEAL_ITEM);
             stepIndex = getIntent().getIntExtra(StepsActivity.STEP_ITEM,0);
